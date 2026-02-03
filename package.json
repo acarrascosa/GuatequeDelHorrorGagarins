@@ -1,0 +1,8 @@
+{
+  "name": "soviet-surf-horror-protocol",
+  "version": "1.0.0",
+  "description": "Protocolo de infiltración The Gagarins",
+  "dependencies": {
+    "resend": "^3.0.0"
+  }
+}

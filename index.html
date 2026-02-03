@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gagarins: Protocolo de Rodaje (Casa de Rubén)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+</head>
+
+<body class="p-2 md:p-6 pb-20 md:pb-6">
+    <div class="crt-overlay"></div>
+
+    <!-- Boot Screen -->
+    <div id="boot-screen">
+        <div id="boot-text" class="whitespace-pre-line"></div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="hidden">
+        <div
+            class="bg-zinc-200 p-6 md:p-8 max-w-md w-full border-4 border-soviet-red relative shadow-[10px_10px_0px_rgba(0,0,0,0.5)]">
+            <button onclick="toggleModal()"
+                class="absolute top-2 right-4 text-2xl font-bold text-red-700 hover:text-black">X</button>
+
+            <h2 class="pixel-font text-3xl mb-1 text-center text-red-700 font-bold border-b-2 border-red-700 pb-2">
+                TRANSMISIÓN</h2>
+            <p class="text-[10px] text-center mb-6 font-bold text-zinc-600 uppercase tracking-widest">Formulario de
+                Asignación Voluntaria</p>
+
+            <form id="contact-form" class="space-y-4" onsubmit="submitForm(event)">
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1 text-zinc-800">Candidato (Nombre en
+                        clave)</label>
+                    <input type="text" id="contact-name" required placeholder="Ej: Camarada Iván"
+                        class="w-full bg-white border-2 border-zinc-400 p-2 text-sm focus:border-red-700 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-1 text-zinc-800">Teléfono</label>
+                        <input type="tel" id="contact-phone" placeholder="+34..."
+                            class="w-full bg-white border-2 border-zinc-400 p-2 text-sm focus:border-red-700 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-1 text-zinc-800">Email</label>
+                        <input type="email" id="contact-email" placeholder="@..."
+                            class="w-full bg-white border-2 border-zinc-400 p-2 text-sm focus:border-red-700 focus:outline-none">
+                    </div>
+                </div>
+                <p class="text-[9px] text-red-600 italic hidden" id="contact-error">* Debes proporcionar Teléfono o
+                    Email de contacto.</p>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase mb-1 text-zinc-800">Mensaje Adicional</label>
+                    <textarea id="contact-msg" rows="3" placeholder="Detalles de tallas, dudas o lealtad al partido..."
+                        class="w-full bg-white border-2 border-zinc-400 p-2 text-sm focus:border-red-700 focus:outline-none"></textarea>
+                </div>
+
+                <div class="bg-zinc-300 p-2 border border-zinc-400 text-[10px]">
+                    <span class="font-bold">SOLICITUD:</span> <span id="modal-costume-name"
+                        class="text-red-700 font-bold">---</span>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 pixel-font text-xl uppercase tracking-widest border-b-4 border-red-900 active:border-b-0 active:translate-y-1 transition-all">
+                    ENVIAR AL ORGANIZADOR
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Drawer Elements -->
+    <div id="drawer-backdrop" class="drawer-backdrop" onclick="toggleDrawer()"></div>
+    <div id="mobile-drawer"
+        class="fixed inset-y-0 left-0 w-3/4 max-w-sm bg-zinc-900 border-r-4 border-soviet-red p-4 shadow-2xl flex flex-col">
+        <div class="flex justify-between items-center mb-6 border-b border-zinc-700 pb-2">
+            <h2 class="pixel-font text-2xl text-zinc-300">EXPEDIENTES</h2>
+            <button onclick="toggleDrawer()" class="text-zinc-400 font-bold text-xl">X</button>
+        </div>
+        <div id="drawer-list" class="flex-grow overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-zinc-700">
+            <!-- List injected here for mobile -->
+        </div>
+        <!-- Credits in drawer -->
+        <div class="mt-4 pt-4 border-t border-zinc-700 text-[10px] text-zinc-500 text-center">
+            Protocolo diseñado por <a href="https://instagram.com/carrastop" target="_blank"
+                class="text-zinc-400 hover:text-white">Carrastop</a>
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <header
+        class="max-w-7xl mx-auto mb-4 md:mb-8 border-b-4 border-zinc-800 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 relative">
+
+        <div class="flex items-center gap-6 pl-0 md:pl-0 text-center md:text-left">
+            <div class="bg-red-900 p-2 border-2 border-black hidden md:block">
+                <span class="text-4xl">🚀</span>
+            </div>
+            <div>
+                <h1 class="pixel-font text-4xl md:text-5xl text-zinc-300 leading-none tv-glitch">THE GAGARINS</h1>
+                <p class="text-[10px] uppercase tracking-widest text-zinc-500 mt-1">Protocolo de Infiltración: Videoclip
+                    "El Guateque del Horror"</p>
+            </div>
+        </div>
+        <div
+            class="bg-zinc-900 p-3 border-2 border-zinc-700 text-xs flex gap-4 md:gap-6 w-full md:w-auto justify-center">
+            <div class="text-center">
+                <span class="block text-zinc-600">FECHA RODAJE</span>
+                <span class="pixel-font text-xl text-yellow-600 uppercase">21 FEB - 17:00</span>
+            </div>
+            <div class="text-center group cursor-pointer hover:bg-zinc-800 transition-colors p-1 rounded">
+                <a id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer">
+                    <span class="block text-zinc-600 group-hover:text-green-400 transition-colors">UBICACIÓN
+                        (WhatsApp)</span>
+                    <span
+                        class="pixel-font text-xl text-green-600 underline decoration-dotted underline-offset-4 group-hover:text-green-400">CASA
+                        DE RUBÉN</span>
+                </a>
+            </div>
+            <div class="text-center hidden md:block">
+                <span class="block text-zinc-600">ESTADO</span>
+                <span class="pixel-font text-xl text-red-600 animate-pulse">REVERB ALTO</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Action Button -->
+    <div class="max-w-7xl mx-auto mb-4 px-2 md:hidden">
+        <button onclick="toggleDrawer()"
+            class="w-full bg-zinc-800 border-2 border-zinc-600 text-zinc-300 pixel-font text-xl py-3 shadow flex items-center justify-center gap-3 active:bg-zinc-700">
+            <span>📁</span> ABRIR EXPEDIENTES CLASIFICADOS
+        </button>
+    </div>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Sidebar: Documents list (Desktop) -->
+        <aside class="hidden lg:block lg:col-span-4 space-y-4">
+            <div class="bg-zinc-800 p-4 border-2 border-zinc-900 shadow-inner">
+                <label class="pixel-font text-2xl text-zinc-500 block mb-4 underline">EXPEDIENTES DE EXTRAS</label>
+
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <select id="cat-select"
+                        class="bg-zinc-900 text-zinc-400 text-[10px] p-2 border border-zinc-700 outline-none w-full">
+                        <option value="all">TODAS LAS CATEGORÍAS</option>
+                        <option value="festivo">PERSONAJES CÓMICOS</option>
+                        <option value="terror">PERSONAJES TERROR</option>
+                        <option value="grupo">GRUPOS TEMÁTICOS</option>
+                    </select>
+                    <select id="diff-select"
+                        class="bg-zinc-900 text-zinc-400 text-[10px] p-2 border border-zinc-700 outline-none w-full">
+                        <option value="all">TODAS LAS DIFICULTADES</option>
+                        <option value="1">BAJA (EXPRESS)</option>
+                        <option value="2">MEDIA</option>
+                        <option value="3">ALTA (PRO)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="costume-list"
+                class="h-[550px] overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-zinc-700">
+                <!-- List of people -->
+            </div>
+        </aside>
+
+        <!-- Main Dossier -->
+        <section class="lg:col-span-8">
+            <div id="viewer" class="paper-document p-4 md:p-8 min-h-[750px] flex flex-col relative overflow-hidden">
+
+                <div id="ai-loader">
+                    <div class="space-y-4">
+                        <div class="text-6xl animate-bounce">📡</div>
+                        <p class="text-2xl tracking-widest">TRANSMITIENDO A LA LUNA...</p>
+                        <p class="text-[10px] text-zinc-500 font-mono">ENCRIPTACIÓN GAGARIN v.4.0</p>
+                    </div>
+                </div>
+
+                <!-- Stamps -->
+                <div id="stamp-vip" class="stamp stamp-vip">V.I.P. GAGARINS</div>
+
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start border-b-4 border-zinc-900 pb-4 mb-8 gap-4">
+                    <div class="flex-grow w-full">
+                        <div class="flex items-center gap-4 md:gap-6">
+                            <div class="relative">
+                                <span id="view-icon"
+                                    class="text-5xl md:text-6xl bg-zinc-500 p-3 border-4 border-zinc-900 block">👤</span>
+                                <div
+                                    class="absolute -bottom-2 -right-2 bg-red-700 text-white text-[8px] px-1 border border-black font-bold">
+                                    M.O.A.</div>
+                            </div>
+                            <div class="flex-grow">
+                                <h2 id="view-title"
+                                    class="text-2xl md:text-4xl font-extrabold uppercase tracking-tighter leading-none mb-1 break-words">
+                                    Carga
+                                    de Datos</h2>
+                                <p id="view-serial" class="pixel-font text-xl md:text-2xl text-zinc-700">SERIAL:
+                                    00-00-00-00</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right w-full md:w-auto flex justify-between md:flex-col md:items-end items-center">
+                        <div>
+                            <div
+                                class="pixel-font text-xl md:text-2xl border-2 border-black px-4 bg-zinc-300 inline-block">
+                                #<span id="view-index">00</span></div>
+                            <p class="text-[8px] uppercase mt-1 font-bold md:block">Documentación Set</p>
+                        </div>
+
+                        <!-- NEW REQUEST BUTTON -->
+                        <button onclick="toggleModal()"
+                            class="mt-2 text-xs bg-red-700 text-white px-3 py-1 font-bold rounded shadow border border-red-900 hover:bg-red-600 transition-colors uppercase tracking-wider">
+                            Solicitar Asignación
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 flex-grow">
+                    <div class="space-y-6 md:space-y-8 order-2 md:order-1">
+                        <div>
+                            <h3 class="text-xs font-black uppercase border-b-2 border-black mb-3">Informe de
+                                Inteligencia</h3>
+                            <p id="view-desc" class="text-sm font-bold italic leading-snug">Seleccione un individuo para
+                                verificar su elegibilidad en el videoclip de The Gagarins.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xs font-black uppercase border-b-2 border-black mb-3">Atrezzo Requerido
+                                (Props)</h3>
+                            <ul id="view-props" class="text-sm space-y-2 font-mono">
+                                <!-- Props list -->
+                            </ul>
+                        </div>
+
+                        <div class="bg-zinc-800 p-4 border-2 border-black text-white shadow-[4px_4px_0px_#000]">
+                            <h3 class="pixel-font text-xl mb-4 text-yellow-500">TERMINAL DE ENLACE ✨</h3>
+                            <div class="grid grid-cols-1 gap-2">
+                                <button onclick="askAI('backstory')"
+                                    class="btn-soviet p-2 text-xs text-left hover:bg-zinc-600">📜 Generar Historia
+                                    (Lore)</button>
+                                <button onclick="askAI('diy-props')"
+                                    class="btn-soviet p-2 text-xs text-left hover:bg-zinc-600">🛠️ Hackear Props
+                                    Caseros</button>
+                                <button onclick="askAI('dialogue')"
+                                    class="btn-soviet p-2 text-xs text-left hover:bg-zinc-600">📣 Líneas de
+                                    Propaganda</button>
+                            </div>
+                            <p class="text-[8px] text-zinc-500 mt-2 text-center">NOTA: Usar con responsabilidad. Límites
+                                de cuota vigentes.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 md:space-y-8 order-1 md:order-2">
+                        <div>
+                            <h3 class="text-xs font-black uppercase border-b-2 border-black mb-3">Modificaciones
+                                Corporales</h3>
+                            <p id="view-makeup" class="text-sm leading-tight border-l-4 border-zinc-400 pl-3">---</p>
+                        </div>
+
+                        <div class="bg-white/40 p-3 border-2 border-zinc-900">
+                            <h3 class="text-[9px] font-bold uppercase mb-2">Escáner de Reverb / Amenaza</h3>
+                            <div class="chart-container h-[180px]">
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div id="ai-output-container"
+                            class="hidden animate-in fade-in slide-in-from-bottom-2 duration-500">
+                            <h3 class="text-[9px] font-bold uppercase mb-1">Transmisión de Banda Ancha</h3>
+                            <div id="ai-output"
+                                class="text-[11px] p-4 bg-zinc-950 text-green-500 font-mono border-2 border-zinc-800 h-48 overflow-y-auto shadow-inner leading-relaxed">
+                                ...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-8 md:mt-12 pt-4 border-t-2 border-zinc-900 text-[10px] font-bold flex flex-col md:flex-row justify-between items-center gap-2">
+                    <div class="flex gap-4">
+                        <span>FORMULARIO GAGARIN-2026</span>
+                        <span>CONFIDENCIAL</span>
+                    </div>
+                    <div class="text-zinc-600 flex gap-2">
+                        <span class="hidden md:inline">Protocolo diseñado por</span>
+                        <a href="https://instagram.com/carrastop" target="_blank" class="credit-link">@carrastop</a> |
+                        <a href="https://linkedin.com/in/acarrascosa" target="_blank" class="credit-link">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
