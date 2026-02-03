@@ -15,7 +15,7 @@ export default async function handler(request, response) {
             return response.status(400).json({ error: 'Missing required fields' });
         }
 
-        const { data, error } = await resend.emails.send({
+        const emailData = {
             from: 'Soviet Protocol <onboarding@resend.dev>', // Default testing domain
             to: ['ritmoandblues@gmail.com'],
             subject: `ASIGNACIÓN VESTIDOR: ${costume.toUpperCase()} - ${name}`,
@@ -34,8 +34,15 @@ export default async function handler(request, response) {
         <p>${message}</p>
         <br />
         <p><em>Glory to the Gagarins!</em></p>
-      `,
-        });
+      `
+        };
+
+        // If user provided an email, set it as Reply-To
+        if (email) {
+            emailData.reply_to = email;
+        }
+
+        const { data, error } = await resend.emails.send(emailData);
 
         if (error) {
             console.error("Resend Error:", error);
