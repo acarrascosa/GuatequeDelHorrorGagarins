@@ -395,7 +395,7 @@ const bootLines = [
     "ENCRYPTING SIGNAL...",
     "BYPASSING KGB FIREWALL...",
     "ACCESS GRANTED.",
-    "WELCOME, COMRADE."
+    "BIENVENIDO, CAMARADA."
 ];
 
 function randomChar() {
@@ -428,8 +428,9 @@ async function runBootSequence() {
     const textEl = document.getElementById('boot-text');
 
     for (const line of bootLines) {
+        textEl.innerHTML = ''; // Clear previous line
         await typeLine(line, textEl);
-        await new Promise(r => setTimeout(r, Math.random() * 250));
+        await new Promise(r => setTimeout(r, Math.random() * 350));
     }
 
     await new Promise(r => setTimeout(r, 400));
