@@ -267,12 +267,12 @@ function renderList(container, isMobile = false) {
         };
 
         el.innerHTML = `
-            <span class="text-4xl filter grayscale contrast-125">${c.icon}</span>
+            <span class="text-4xl 2xl:text-5xl filter grayscale contrast-125">${c.icon}</span>
             <div class="flex-grow">
-                <h4 class="text-xs font-black uppercase tracking-tight text-white">${c.title}</h4>
+                <h4 class="text-xs 2xl:text-base font-black uppercase tracking-tight text-white">${c.title}</h4>
                 <div class="flex items-center gap-2 mt-1">
                     <span class="status-light ${c.diff == 1 ? 'light-green' : 'light-red'}"></span>
-                    <span class="text-[8px] text-zinc-400 font-bold uppercase">${c.cat} / DIF: ${c.diff}</span>
+                    <span class="text-[8px] 2xl:text-xs text-zinc-400 font-bold uppercase">${c.cat} / DIF: ${c.diff}</span>
                 </div>
             </div>
         `;

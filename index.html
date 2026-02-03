@@ -12,7 +12,7 @@
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
 </head>
 
-<body class="p-2 md:p-6 pb-20 md:pb-6">
+<body class="p-2 md:p-6 pb-20 md:pb-6 2xl:p-10">
     <div class="crt-overlay"></div>
 
     <!-- Boot Screen -->
@@ -94,15 +94,17 @@
 
     <!-- Top Bar -->
     <header
-        class="max-w-7xl mx-auto mb-4 md:mb-8 border-b-4 border-zinc-800 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 relative">
+        class="max-w-7xl 2xl:max-w-[90vw] mx-auto mb-4 md:mb-8 border-b-4 border-zinc-800 pb-4 flex flex-col md:flex-row justify-between items-center gap-4 relative">
 
         <div class="flex items-center gap-6 pl-0 md:pl-0 text-center md:text-left">
             <div class="bg-red-900 p-2 border-2 border-black hidden md:block">
                 <span class="text-4xl">🚀</span>
             </div>
             <div>
-                <h1 class="pixel-font text-4xl md:text-5xl text-zinc-300 leading-none tv-glitch">THE GAGARINS</h1>
-                <p class="text-[10px] uppercase tracking-widest text-zinc-500 mt-1">Protocolo de Infiltración: Videoclip
+                <h1 class="pixel-font text-4xl md:text-5xl 2xl:text-7xl text-zinc-300 leading-none tv-glitch">THE
+                    GAGARINS</h1>
+                <p class="text-[10px] 2xl:text-sm uppercase tracking-widest text-zinc-500 mt-1">Protocolo de
+                    Infiltración: Videoclip
                     "El Guateque del Horror"</p>
             </div>
         </div>
@@ -136,7 +138,7 @@
         </button>
     </div>
 
-    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main class="max-w-7xl 2xl:max-w-[90vw] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 2xl:gap-10">
 
         <!-- Sidebar: Documents list (Desktop) -->
         <aside class="hidden lg:block lg:col-span-4 space-y-4">
@@ -162,14 +164,15 @@
             </div>
 
             <div id="costume-list"
-                class="h-[550px] overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-zinc-700">
+                class="h-[550px] 2xl:h-[calc(85vh-100px)] overflow-y-auto space-y-3 pr-2 scrollbar-thin scrollbar-thumb-zinc-700">
                 <!-- List of people -->
             </div>
         </aside>
 
         <!-- Main Dossier -->
         <section class="lg:col-span-8">
-            <div id="viewer" class="paper-document p-4 md:p-8 min-h-[750px] flex flex-col relative overflow-hidden">
+            <div id="viewer"
+                class="paper-document p-4 md:p-8 2xl:p-12 min-h-[750px] 2xl:min-h-[85vh] flex flex-col relative overflow-hidden">
 
                 <div id="ai-loader">
                     <div class="space-y-4">
@@ -195,7 +198,7 @@
                             </div>
                             <div class="flex-grow">
                                 <h2 id="view-title"
-                                    class="text-2xl md:text-4xl font-extrabold uppercase tracking-tighter leading-none mb-1 break-words">
+                                    class="text-2xl md:text-4xl 2xl:text-6xl font-extrabold uppercase tracking-tighter leading-none mb-1 break-words">
                                     Carga
                                     de Datos</h2>
                                 <p id="view-serial" class="pixel-font text-xl md:text-2xl text-zinc-700">SERIAL:
@@ -224,14 +227,15 @@
                         <div>
                             <h3 class="text-xs font-black uppercase border-b-2 border-black mb-3">Informe de
                                 Inteligencia</h3>
-                            <p id="view-desc" class="text-sm font-bold italic leading-snug">Seleccione un individuo para
+                            <p id="view-desc" class="text-sm 2xl:text-xl font-bold italic leading-snug">Seleccione un
+                                individuo para
                                 verificar su elegibilidad en el videoclip de The Gagarins.</p>
                         </div>
 
                         <div>
                             <h3 class="text-xs font-black uppercase border-b-2 border-black mb-3">Atrezzo Requerido
                                 (Props)</h3>
-                            <ul id="view-props" class="text-sm space-y-2 font-mono">
+                            <ul id="view-props" class="text-sm 2xl:text-lg space-y-2 font-mono">
                                 <!-- Props list -->
                             </ul>
                         </div>
@@ -258,12 +262,13 @@
                         <div>
                             <h3 class="text-xs font-black uppercase border-b-2 border-black mb-3">Modificaciones
                                 Corporales</h3>
-                            <p id="view-makeup" class="text-sm leading-tight border-l-4 border-zinc-400 pl-3">---</p>
+                            <p id="view-makeup"
+                                class="text-sm 2xl:text-lg leading-tight border-l-4 border-zinc-400 pl-3">---</p>
                         </div>
 
                         <div class="bg-white/40 p-3 border-2 border-zinc-900">
                             <h3 class="text-[9px] font-bold uppercase mb-2">Escáner de Reverb / Amenaza</h3>
-                            <div class="chart-container h-[180px]">
+                            <div class="chart-container h-[180px] 2xl:h-[250px]">
                                 <canvas id="radarChart"></canvas>
                             </div>
                         </div>
