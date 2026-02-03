@@ -60,7 +60,17 @@ function playStampSound() {
     if (audio) {
         audio.currentTime = 0;
         audio.volume = 0.4;
-        audio.play().catch(e => console.log("Audio play blocked (autoplay policy) or file missing"));
+        audio.play().catch(e => console.log("Audio play blocked"));
+    }
+}
+
+function playClickSound() {
+    if (!soundEnabled) return;
+    const audio = document.getElementById('audio-click');
+    if (audio) {
+        audio.currentTime = 0;
+        audio.volume = 0.2; // Softer than stamp
+        audio.play().catch(e => console.log("Audio play blocked"));
     }
 }
 
@@ -328,7 +338,12 @@ function updateList() {
 
 function select(id, index) {
     if (selectedId !== id) {
-        playStampSound();
+        // ID <= 7 get stamp sound, others get click
+        if (id <= 7) {
+            playStampSound();
+        } else {
+            playClickSound();
+        }
     }
     selectedId = id;
     const c = costumes.find(x => x.id === id);
