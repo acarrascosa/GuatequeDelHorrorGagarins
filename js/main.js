@@ -317,7 +317,7 @@ function select(id, index) {
         setTimeout(() => {
             const randomAngle = Math.floor(Math.random() * 41) - 20; // Random between -20 and 20
             const isMobile = window.innerWidth < 768;
-            const scale = isMobile ? 0.8 : 1;
+            const scale = isMobile ? 0.8 : 1.5;
             sVip.style.transform = `rotate(${randomAngle}deg) scale(${scale})`;
             sVip.classList.add('show-stamp');
         }, 100);
@@ -393,10 +393,30 @@ async function runBootSequence() {
     }, 300);
 }
 
+// --- CONFIG LOAD ---
+async function loadConfig() {
+    try {
+        const res = await fetch('/api/config');
+        if (res.ok) {
+            const data = await res.json();
+            CONTACT_INFO = data;
+
+            // Update DOM
+            const whatsappEl = document.getElementById('whatsapp-link');
+            if (whatsappEl && data.whatsapp) {
+                whatsappEl.href = data.whatsapp;
+            }
+        }
+    } catch (e) {
+        console.error("Failed to load config", e);
+    }
+}
+
 document.getElementById('cat-select').onchange = updateList;
 document.getElementById('diff-select').onchange = updateList;
 
 window.onload = () => {
+    loadConfig();
     runBootSequence();
     initRadar();
     updateList();
