@@ -40,8 +40,12 @@ let radarChart = null;
 let selectedId = null;
 let soundEnabled = false;
 
-function toggleSound() {
-    soundEnabled = !soundEnabled;
+function toggleSound(updateStorage = true) {
+    if (updateStorage) {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem('soundEnabled', soundEnabled);
+    }
+
     const el = document.getElementById('sound-indicator');
     if (soundEnabled) {
         el.textContent = "ON";
@@ -438,13 +442,27 @@ async function runBootSequence() {
     setTimeout(() => {
         screen.style.display = 'none';
 
-        // UX Improvement: Auto-open drawer on mobile
+        // UX Improvement: Auto-open drawer on mobile (ONLY FIRST TIME)
         if (window.innerWidth < 768) {
-            setTimeout(() => {
-                toggleDrawer();
-            }, 500);
+            const hasOpened = localStorage.getItem('drawerOpened');
+            if (!hasOpened) {
+                setTimeout(() => {
+                    toggleDrawer();
+                    localStorage.setItem('drawerOpened', 'true');
+                }, 500);
+            }
         }
     }, 300);
+}
+
+// --- INIT PREFS ---
+function loadPreferences() {
+    // Sound (Default OFF if not set)
+    const savedSound = localStorage.getItem('soundEnabled');
+    if (savedSound === 'true') {
+        soundEnabled = true;
+        toggleSound(false); // Update UI without toggling value
+    }
 }
 
 // --- CONFIG LOAD ---
@@ -470,6 +488,7 @@ document.getElementById('cat-select').onchange = updateList;
 document.getElementById('diff-select').onchange = updateList;
 
 window.onload = () => {
+    loadPreferences();
     loadConfig();
     runBootSequence();
     initRadar();
