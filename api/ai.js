@@ -1,11 +1,10 @@
-
 export default async function handler(request, response) {
     if (request.method !== 'POST') {
         return response.status(405).json({ error: 'Method not allowed' });
     }
 
     const { mode, character } = request.body;
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
 
     if (!apiKey) {
         return response.status(500).json({ error: 'Server AI Key missing' });
@@ -24,32 +23,36 @@ export default async function handler(request, response) {
     }
 
     try {
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+        const openRouterUrl = 'https://openrouter.ai/api/v1/chat/completions';
 
-        const geminiRes = await fetch(geminiUrl, {
+        const openRouterRes = await fetch(openRouterUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
+                'HTTP-Referer': 'https://guateque-del-horror-gagarins.vercel.app', // Site URL
+                'X-Title': 'Guateque del Horror Protocol' // Site Title
+            },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }]
+                "model": "liquid/lfm-2.5-1.2b-thinking:free",
+                "messages": [
+                    { "role": "user", "content": prompt }
+                ]
             })
         });
 
-        const data = await geminiRes.json();
+        const data = await openRouterRes.json();
 
-        if (!geminiRes.ok) {
-            throw new Error(data.error?.message || 'Gemini API Error');
+        if (!openRouterRes.ok) {
+            console.error("OpenRouter Error:", data);
+            throw new Error(data.error?.message || 'OpenRouter API Error');
         }
 
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "NO DATA";
+        const text = data.choices?.[0]?.message?.content || "NO DATA";
         return response.status(200).json({ text });
 
     } catch (err) {
         console.error("AI Error:", err);
-        const msg = err.message || "";
-        // Check for specific Google API Quota errors
-        if (msg.includes('429') || msg.includes('Resource exhausted') || msg.includes('quota')) {
-            return response.status(503).json({ error: "Quota Exceeded. Please wait a moment." });
-        }
         return response.status(500).json({ error: err.message });
     }
 }
