@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Protocolo de infiltración The Gagarins",
   "dependencies": {
-    "resend": "^3.0.0"
+    "nodemailer": "^7.0.13"
   }
 }
