@@ -110,25 +110,36 @@
         </div>
         <div
             class="bg-zinc-900 p-3 border-2 border-zinc-700 text-xs flex gap-4 md:gap-6 w-full md:w-auto justify-center">
-            <div class="text-center">
-                <span class="block text-zinc-600">FECHA RODAJE</span>
-                <span class="pixel-font text-xl text-yellow-600 uppercase">21 FEB - 17:00</span>
+            <div class="text-center group cursor-pointer hover:bg-zinc-800 transition-colors p-1 rounded">
+                <a id="date-link" rel="noopener noreferrer">
+                    <span class="block text-zinc-600">FECHA RODAJE</span>
+                    <span class="pixel-font text-xl text-yellow-600 uppercase">21 FEB - 17:00</span>
+                </a>
             </div>
             <div class="text-center group cursor-pointer hover:bg-zinc-800 transition-colors p-1 rounded">
                 <a id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer">
-                    <span class="block text-zinc-600 group-hover:text-green-400 transition-colors">UBICACIÓN
-                        (WhatsApp)</span>
+                    <span class="block text-zinc-600 group-hover:text-green-400 transition-colors">UBICACIÓN</span>
                     <span
                         class="pixel-font text-xl text-green-600 underline decoration-dotted underline-offset-4 group-hover:text-green-400">CASA
                         DE RUBÉN</span>
                 </a>
             </div>
-            <div class="text-center hidden md:block">
-                <span class="block text-zinc-600">ESTADO</span>
-                <span class="pixel-font text-xl text-red-600 animate-pulse">REVERB ALTO</span>
+            <div
+                class="text-center hidden md:block group cursor-pointer hover:bg-zinc-800 transition-colors p-1 rounded">
+                <a id="status-link" rel="noopener noreferrer">
+                    <span class="block text-zinc-600">ESTADO</span>
+                    <span class="pixel-font text-xl text-red-600 animate-pulse">REVERB ALTO</span>
+                </a>
+            </div>
+            <div class="text-center group cursor-pointer hover:bg-zinc-800 transition-colors p-1 rounded"
+                onclick="toggleSound()">
+                <span class="block text-zinc-600">SONIDO</span>
+                <span id="sound-indicator" class="pixel-font text-xl text-green-600">ON</span>
             </div>
         </div>
     </header>
+
+    <audio id="audio-stamp" src="static/stamp.mp3" preload="auto"></audio>
 
     <!-- Mobile Action Button -->
     <div class="max-w-7xl mx-auto mb-4 px-2 md:hidden">

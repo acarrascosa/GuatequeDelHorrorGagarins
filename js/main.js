@@ -38,6 +38,31 @@ const costumes = [
 
 let radarChart = null;
 let selectedId = null;
+let soundEnabled = true;
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    const el = document.getElementById('sound-indicator');
+    if (soundEnabled) {
+        el.textContent = "ON";
+        el.classList.remove('text-zinc-500', 'line-through');
+        el.classList.add('text-green-600');
+    } else {
+        el.textContent = "OFF";
+        el.classList.remove('text-green-600');
+        el.classList.add('text-zinc-500', 'line-through');
+    }
+}
+
+function playStampSound() {
+    if (!soundEnabled) return;
+    const audio = document.getElementById('audio-stamp');
+    if (audio) {
+        audio.currentTime = 0;
+        audio.volume = 0.4;
+        audio.play().catch(e => console.log("Audio play blocked (autoplay policy) or file missing"));
+    }
+}
 
 function toggleDrawer() {
     const drawer = document.getElementById('mobile-drawer');
@@ -302,6 +327,9 @@ function updateList() {
 }
 
 function select(id, index) {
+    if (selectedId !== id) {
+        playStampSound();
+    }
     selectedId = id;
     const c = costumes.find(x => x.id === id);
 
