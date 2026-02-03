@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Protocolo de infiltración The Gagarins",
   "dependencies": {
+    "@supabase/supabase-js": "^2.94.0",
     "nodemailer": "^7.0.13"
   }
 }
