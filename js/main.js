@@ -183,12 +183,16 @@ async function askAI(mode) {
     const outputContainer = document.getElementById('ai-output-container');
     const outputEl = document.getElementById('ai-output');
     const loader = document.getElementById('ai-loader');
+    const buttons = document.querySelectorAll('.btn-soviet'); // Select all AI buttons
 
     if (!selectedId) {
         outputContainer.classList.remove('hidden');
         outputEl.innerHTML = "<span class='text-red-500'>[ERROR] SELECCIONA UN SUJETO PRIMERO</span>";
         return;
     }
+
+    // Disable all buttons to prevent spam
+    buttons.forEach(btn => btn.disabled = true);
 
     const c = costumes.find(x => x.id === selectedId);
     loader.style.display = 'flex';
@@ -211,6 +215,10 @@ async function askAI(mode) {
         const data = await response.json();
 
         if (!response.ok) {
+            // Check for quota error
+            if (response.status === 503) {
+                throw new Error("La IA está saturada (Quota Exceeded). Inténtalo en un minuto.");
+            }
             throw new Error(data.error || "Error de comunicación con el Politburó");
         }
 
@@ -221,9 +229,11 @@ async function askAI(mode) {
     } catch (err) {
         console.error("AI Error:", err);
         outputContainer.classList.remove('hidden');
-        outputEl.innerHTML = `<span class='text-red-500'>[ERROR 500] FALLO EN LA RED NEURONAL SOVIÉTICA.<br>${err.message}</span>`;
+        outputEl.innerHTML = `<span class='text-red-500'>[ERROR] FALLO EN LA RED NEURONAL.<br>${err.message}</span>`;
     } finally {
         loader.style.display = 'none';
+        // Re-enable buttons
+        buttons.forEach(btn => btn.disabled = false);
     }
 }
 

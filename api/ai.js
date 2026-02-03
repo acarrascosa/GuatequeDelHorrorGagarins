@@ -45,6 +45,11 @@ export default async function handler(request, response) {
 
     } catch (err) {
         console.error("AI Error:", err);
+        const msg = err.message || "";
+        // Check for specific Google API Quota errors
+        if (msg.includes('429') || msg.includes('Resource exhausted') || msg.includes('quota')) {
+            return response.status(503).json({ error: "Quota Exceeded. Please wait a moment." });
+        }
         return response.status(500).json({ error: err.message });
     }
 }
