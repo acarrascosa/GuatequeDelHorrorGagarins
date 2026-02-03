@@ -4,7 +4,11 @@ export default async function handler(request, response) {
     }
 
     const { mode, character } = request.body;
+
+    // DEBUG: Check what envs are loaded
+    console.log("Loaded Env Keys:", Object.keys(process.env));
     const apiKey = process.env.OPENROUTER_API_KEY;
+    console.log(apiKey);
 
     if (!apiKey) {
         return response.status(500).json({ error: 'Server AI Key missing' });
