@@ -38,7 +38,7 @@ const costumes = [
 
 let radarChart = null;
 let selectedId = null;
-let soundEnabled = true;
+let soundEnabled = false;
 
 function toggleSound() {
     soundEnabled = !soundEnabled;
