@@ -63,7 +63,10 @@ function toggleModal() {
     const c = costumes.find(x => x.id === selectedId);
 
     if (modal.classList.contains('hidden')) {
-        document.getElementById('modal-costume-name').textContent = c ? c.title : '---';
+        const nameEl = document.getElementById('modal-costume-name');
+        if (nameEl) {
+            nameEl.textContent = c ? c.title : '---';
+        }
         modal.classList.remove('hidden');
         modal.classList.add('flex');
     } else {
