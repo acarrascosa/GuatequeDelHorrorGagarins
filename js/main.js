@@ -174,71 +174,51 @@ Glory to the Gagarins!`;
     }
 }
 
-// --- AI ENGINE ---
-async function fetchGemini(prompt, retries = 3) {
-    const systemPrompt = `Eres el mánager soviético de la banda 'The Gagarins'. Tu misión es organizar el rodaje de su nuevo videoclip de Surf Soviético Horror en 'casa de Rubén'. Tu tono es el de un oficial del KGB pero que ama el surf, el reverb y el espacio. Eres sarcástico, autoritario y creativo. Responde siempre en español. No menciones que eres una IA.`;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-    for (let i = 0; i < retries; i++) {
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: prompt }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
-                })
-            });
-
-            if (response.status === 429) {
-                throw new Error("QUOTA_EXCEEDED");
-            }
-
-            if (!response.ok) {
-                throw new Error(`HTTP_ERROR_${response.status}`);
-            }
-
-            const result = await response.json();
-            return result.candidates?.[0]?.content?.parts?.[0]?.text || "FALLO EN EL SATÉLITE GAGARIN.";
-        } catch (error) {
-            if (error.message === "QUOTA_EXCEEDED") throw error; // Don't retry quota errors
-            if (i === retries - 1) throw error;
-            await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
-        }
-    }
-}
+// --- AI ENGINE (SECURE) ---
 
 async function askAI(mode) {
-    if (!apiKey) {
-        alert("⚠️ ATENCIÓN CAMARADA: Se requiere una API KEY para usar la Inteligencia del Politburó. Edita el código para añadirla.");
+    const outputContainer = document.getElementById('ai-output-container');
+    const outputEl = document.getElementById('ai-output');
+    const loader = document.getElementById('ai-loader');
+
+    if (!selectedId) {
+        outputContainer.classList.remove('hidden');
+        outputEl.innerHTML = "<span class='text-red-500'>[ERROR] SELECCIONA UN SUJETO PRIMERO</span>";
         return;
     }
 
-    if (!selectedId) return;
     const c = costumes.find(x => x.id === selectedId);
-    const loader = document.getElementById('ai-loader');
-    const outputCont = document.getElementById('ai-output-container');
-    const outputText = document.getElementById('ai-output');
-
     loader.style.display = 'flex';
-    outputCont.classList.add('hidden');
-
-    let prompt = "";
-    if (mode === 'backstory') prompt = `Escribe un informe secreto breve (70 palabras) sobre cómo '${c.title}' llegó a la fiesta en casa de Rubén para el rodaje de The Gagarins el 21 de Febrero. Incluye algo sobre el reverb de la guitarra.`;
-    else if (mode === 'diy-props') prompt = `Como oficial de atrezzo de The Gagarins, sugiere 3 soluciones RÁPIDAS y CUTRES para los props de '${c.title}' (${c.props.join(', ')}) usando basura doméstica o cosas cocina. Sé gracioso, directo y telegráfico (máx 15 palabras por punto).`;
-    else if (mode === 'dialogue') prompt = `Dime 3 frases CORTAS y de serie B (máx 10 palabras) que '${c.title}' diría a cámara. Una menciona a The Gagarins, otra a Rubén y otra sobre morir surfeando.`;
+    outputContainer.classList.add('hidden'); // Hide previous output
+    outputEl.textContent = "";
 
     try {
-        const response = await fetchGemini(prompt);
-        outputText.innerText = `[ORIGEN: LUNA-1] \n\n${response}\n\n[FIN DE LA TRANSMISIÓN]`;
-        outputCont.classList.remove('hidden');
-    } catch (err) {
-        if (err.message === "QUOTA_EXCEEDED") {
-            outputText.innerText = "⚠️ LÍMITE DE PROCESAMIENTO ALCANZADO. El Politburó ha cortado el suministro de IA por exceso de uso. Espérate un par de minutos, camarada.";
-        } else {
-            outputText.innerText = "CRITICAL ERROR: COMUNICACIÓN INTERRUMPIDA. Los satélites capitalistas interfieren la señal.";
+        const response = await fetch('/api/ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                mode: mode,
+                character: {
+                    title: c.title,
+                    props: c.props
+                }
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Error de comunicación con el Politburó");
         }
-        outputCont.classList.remove('hidden');
+
+        // Simular efecto de mecanografía
+        outputContainer.classList.remove('hidden');
+        await typeLine(data.text, outputEl);
+
+    } catch (err) {
+        console.error("AI Error:", err);
+        outputContainer.classList.remove('hidden');
+        outputEl.innerHTML = `<span class='text-red-500'>[ERROR 500] FALLO EN LA RED NEURONAL SOVIÉTICA.<br>${err.message}</span>`;
     } finally {
         loader.style.display = 'none';
     }
