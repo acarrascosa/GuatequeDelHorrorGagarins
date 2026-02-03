@@ -13,9 +13,12 @@ export default async function handler(req, res) {
     }
 
     // --- 1. Persist to Supabase (Best Effort) ---
-    if (process.env.SUPABASE_URL && process.env.SUPABASE_KEY) {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_PRIVATE_KEY || process.env.SUPABASE_PUBLIC_KEY; // Prefer private for backend
+
+    if (supabaseUrl && supabaseKey) {
         try {
-            const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+            const supabase = createClient(supabaseUrl, supabaseKey);
             const { error } = await supabase
                 .from('requests')
                 .insert([
